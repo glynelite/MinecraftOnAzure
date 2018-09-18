@@ -61,7 +61,8 @@
     "vmName": "minecraftvm",
     "virtualNetworkName": "minecraftvnet",
 	"sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
-    "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]"
+    "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
+    "extensionName": "DockerExtension"
   },
     "resources": [{
       "apiVersion": "2017-06-01",
@@ -217,7 +218,7 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmName'),'/newuserscript')]",
+      "name": "[concat(variables('vmName'),'/', variables('extensionName'))]",
       "apiVersion": "2017-03-30",
       "location": "[parameters('location')]",
       "dependsOn": [
@@ -225,15 +226,10 @@
       ],
       "properties": {
         "publisher": "Microsoft.Azure.Extensions",
-        "type": "CustomScript",
-        "typeHandlerVersion": "2.0",
+        "type": "DockerExtension",
+        "typeHandlerVersion": "1.0",
         "autoUpgradeMinorVersion": true,
-        "settings": {
-          "fileUris": [
-            "https://github.com/glynelite/MinecraftOnAzure/blob/master/SpigotVM/install_spigot.sh"
-          ],
-          "commandToExecute": "bash install_spigot.sh"
-        }
+        "settings": {}
       }
     }
  ]
