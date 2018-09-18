@@ -7,12 +7,6 @@
         "description": "Your Minecraft user name. This user will be added as an op."
       }
     },
-    "virtualMachineName": {
-      "type": "string",
-      "metadata": {
-        "description": "Name of the Virtual Machine."
-      }
-    },
     "adminUsername": {
       "type": "string",
       "metadata": {
@@ -57,15 +51,15 @@
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
     "networkSecurityGroupName": "[concat(variables('lowerCaseDNSName'), 'nsg')]",
-    "nicName": "[toLower(parameters('virtualMachineName'))]-nic",
+    "nicName": "spigot-nic",
     "addressPrefix": "10.0.0.0/16",
     "subnetName": "subnet",
     "subnetPrefix": "10.0.0.0/24",
-    "publicIPAddressName": "[toLower(parameters('virtualMachineName'))]-public-ip",
+    "publicIPAddressName": "spigot-public-ip",
     "publicIPAddressType": "Dynamic",
     "ubuntuOSVersion": "18.04-LTS",
-    "vmName": "[toLower(parameters('virtualMachineName'))]",
-    "virtualNetworkName": "[toLower(parameters('virtualMachineName'))]-vnet",
+    "vmName": "spigot-vm",
+    "virtualNetworkName": "spigot-vnet",
 	"sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
     "extensionName": "DockerExtension"
@@ -255,8 +249,11 @@
           "fileUris": [
             "https://github.com/glynelite/MinecraftOnAzure/blob/master/SpigotVM/install_spigot.sh"
           ],
-          "commandToExecute": "bash install_spigot.sh"
-        }
+          "commandToExecute": "./install_spigot.sh"
+        },
+        "dependsOn": [
+          "[variables('extensionName')]"
+        ]
       }
     }
   ]

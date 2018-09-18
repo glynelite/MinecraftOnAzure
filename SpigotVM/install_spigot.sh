@@ -1,1 +1,2 @@
-sudo docker run -e TYPE=PAPER -d -p 25565:25565 -e EULA=TRUE -e PAPER_DOWNLOAD_URL=https://yivesmirror.com/files/spigot/spigot-1.7.10-SNAPSHOT-b1657.jar --name teamsmc itzg/minecraft-server --noconsole
+sudo docker pull itzg/minecraft-server
+sudo docker run -d -p 25565:25565 --name mc itzg/minecraft-server
