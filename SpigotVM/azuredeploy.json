@@ -230,7 +230,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://github.com/glynelite/MinecraftOnAzure/blob/master/SpigotVM/install_minecraft.sh"
+            "https://github.com/glynelite/MinecraftOnAzure/blob/master/SpigotVM/install_spigot.sh"
           ],
           "commandToExecute": "bash install_minecraft.sh"
         }
