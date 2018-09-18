@@ -1,8 +1,7 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-    "minecraftUser": {
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {"minecraftUser": {
       "type": "string",
       "metadata": {
         "description": "Your Minecraft user name. This user will be added as an op."
@@ -46,8 +45,8 @@
         "description": "Location for all resources."
       }
     }
-  },
-  "variables": {
+},
+"variables": {
     "lowerCaseDNSName": "[toLower(parameters('dnsNameForPublicIP'))]",
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
@@ -61,10 +60,10 @@
     "ubuntuOSVersion": "18.04-LTS",
     "vmName": "minecraftvm",
     "virtualNetworkName": "minecraftvnet",
+	"sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]"
   },
-  "resources": [
-    {
+    "resources": [{
       "apiVersion": "2017-06-01",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('networkSecurityGroupName')]",
@@ -237,5 +236,5 @@
         }
       }
     }
-  ]
+ ]
 }
