@@ -7,6 +7,12 @@
         "description": "Your Minecraft user name. This user will be added as an op."
       }
     },
+    "virtualMachineName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Virtual Machine."
+      }
+    },
     "adminUsername": {
       "type": "string",
       "metadata": {
@@ -51,15 +57,15 @@
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
     "networkSecurityGroupName": "[concat(variables('lowerCaseDNSName'), 'nsg')]",
-    "nicName": "minecraftvmnic",
+    "nicName": "[toLower(parameters('virtualMachineName'))]-nic",
     "addressPrefix": "10.0.0.0/16",
     "subnetName": "subnet",
     "subnetPrefix": "10.0.0.0/24",
-    "publicIPAddressName": "minecraftpublicip",
+    "publicIPAddressName": "[toLower(parameters('virtualMachineName'))]-public-ip",
     "publicIPAddressType": "Dynamic",
     "ubuntuOSVersion": "18.04-LTS",
-    "vmName": "minecraftvm",
-    "virtualNetworkName": "minecraftvnet",
+    "vmName": "[toLower(parameters('virtualMachineName'))]",
+    "virtualNetworkName": "[toLower(parameters('virtualMachineName'))]-vnet",
 	"sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
     "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('virtualNetworkName'), variables('subnetName'))]",
     "extensionName": "DockerExtension"
@@ -231,6 +237,27 @@
         "autoUpgradeMinorVersion": true,
         "settings": {}
       }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'),'/newuserscript')]",
+      "apiVersion": "2017-03-30",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.Azure.Extensions",
+        "type": "CustomScript",
+        "typeHandlerVersion": "2.0",
+        "autoUpgradeMinorVersion": true,
+        "settings": {
+          "fileUris": [
+            "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/minecraft-on-ubuntu/install_minecraft.sh"
+          ],
+          "commandToExecute": "bash install_spigot.sh"
+        }
+      }
     }
- ]
+  ]
 }
