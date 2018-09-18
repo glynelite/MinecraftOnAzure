@@ -253,7 +253,7 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/minecraft-on-ubuntu/install_minecraft.sh"
+            "https://github.com/glynelite/MinecraftOnAzure/blob/master/SpigotVM/install_spigot.sh"
           ],
           "commandToExecute": "bash install_spigot.sh"
         }
