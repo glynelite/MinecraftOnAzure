@@ -50,7 +50,7 @@
     "lowerCaseDNSName": "[toLower(parameters('dnsNameForPublicIP'))]",
     "imagePublisher": "Canonical",
     "imageOffer": "UbuntuServer",
-    "networkSecurityGroupName": "[concat(variables('lowerCaseDNSName'), 'nsg')]",
+    "networkSecurityGroupName": "[concat(variables('lowerCaseDNSName'), '-nsg')]",
     "nicName": "spigot-nic",
     "addressPrefix": "10.0.0.0/16",
     "subnetName": "subnet",
