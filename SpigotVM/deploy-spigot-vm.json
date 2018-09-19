@@ -238,7 +238,8 @@
       "apiVersion": "2017-03-30",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
+        "[variables('extensionName')]"
       ],
       "properties": {
         "publisher": "Microsoft.Azure.Extensions",
@@ -249,11 +250,8 @@
           "fileUris": [
             "https://github.com/glynelite/MinecraftOnAzure/blob/master/SpigotVM/install_spigot.sh"
           ],
-          "commandToExecute": "./install_spigot.sh"
-        },
-        "dependsOn": [
-          "[variables('extensionName')]"
-        ]
+          "commandToExecute": "bash install_spigot.sh"
+        }
       }
     }
   ]
