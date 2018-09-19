@@ -248,9 +248,9 @@
         "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
-            "https://github.com/glynelite/MinecraftOnAzure/blob/master/SpigotVM/install_spigot.sh"
+            "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/minecraft-on-ubuntu/install_minecraft.sh"
           ],
-          "commandToExecute": "bash install_spigot.sh"
+          "commandToExecute": "[concat('bash install_minecraft.sh ', parameters('minecraftUser'), ' ', parameters('difficulty'), ' ', parameters('level-name'), ' ', parameters('gamemode'), ' ', parameters('white-list'), ' ', parameters('enable-command-block'), ' ', parameters('spawn-monsters'), ' ', parameters('generate-structures'), ' ', parameters('level-seed'))]"
           }
       }
     }
