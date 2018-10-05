@@ -221,52 +221,46 @@
                         }
                     ]
                 }
-            },
-            "resources": [
-            {
-			      "type": "extensions",
-			      "name": "[concat(variables('vmName'),'/', variables('extensionName'))]",
-			      "apiVersion": "2017-03-30",
-			      "location": "[parameters('location')]",
-			      "dependsOn": [
-			        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
-			      ],
-			      "properties": {
-			        "publisher": "Microsoft.Azure.Extensions",
-			        "type": "DockerExtension",
-			        "typeHandlerVersion": "1.0",
-			        "autoUpgradeMinorVersion": true,
-			        "settings": {}
-			      }
-			    },
-                {
-                    "type": "extensions",
-                    "name": "[variables('vmExtensionName')]",
-                    "apiVersion": "2017-03-30",
-                    "location": "[parameters('location')]",
-                    "dependsOn": [
-                        "[variables('extensionName')]"
-                    ],
-                    "properties": {
-                        "publisher": "Microsoft.Azure.Extensions",
-                        "type": "CustomScript",
-                        "typeHandlerVersion": "2.0",
-                        "autoUpgradeMinorVersion": true,
-                        "settings": {
-                            "fileUris": [
-                                "https://raw.githubusercontent.com/glynelite/MinecraftOnAzure/master/JenkinsVM/install_jenkins.sh"
-                            ],
-                            "commandToExecute": "bash install_jenkins"
-                        	}
-                    }
                 }
-            ]
-        }
-    ],
-    "outputs": {
-        "jenkinsURL": {
-            "type": "string",
-            "value": "[concat('http://', reference(variables('publicIPAddressName')).dnsSettings.fqdn)]"
-        }
-    }
-}
+            },
+            {
+		      "type": "Microsoft.Compute/virtualMachines/extensions",
+		      "name": "[concat(variables('vmName'),'/', variables('extensionName'))]",
+		      "apiVersion": "2017-03-30",
+		      "location": "[parameters('location')]",
+		      "dependsOn": [
+		        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+		      ],
+		      "properties": {
+		        "publisher": "Microsoft.Azure.Extensions",
+		        "type": "DockerExtension",
+		        "typeHandlerVersion": "1.0",
+		        "autoUpgradeMinorVersion": true,
+		        "settings": {}
+		      }
+		    },
+		    {
+		      "type": "Microsoft.Compute/virtualMachines/extensions",
+		      "name": "[concat(variables('vmName'),'/newuserscript')]",
+		      "apiVersion": "2017-03-30",
+		      "location": "[parameters('location')]",
+		      "dependsOn": [
+		        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]",
+		        "[variables('extensionName')]"
+		      ],
+		      "properties": {
+		        "publisher": "Microsoft.Azure.Extensions",
+		        "type": "CustomScript",
+		        "typeHandlerVersion": "2.0",
+		        "autoUpgradeMinorVersion": true,
+		        "settings": {
+		          "fileUris": [
+		            "https://raw.githubusercontent.com/glynelite/MinecraftOnAzure/master/SpigotVM/install_jenkins.sh"
+		          ],
+		          "commandToExecute": "bash install_jenkins.sh"
+		          }
+		      }
+		    }
+		  ]
+		}
+    
