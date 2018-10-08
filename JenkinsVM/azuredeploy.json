@@ -18,6 +18,7 @@
       "type": "string",
       "defaultValue": "Standard_B1ms",
       "allowedValues": [
+      	"Standard_B1ms",
         "Standard_B2s",
         "Standard_B2ms",
         "Standard_B4ms",
@@ -25,6 +26,18 @@
       	],
 		      "metadata": {
 		        "description": "This is the Azure Virtual Machine size, and will affect the cost. If you don't know, just leave the default value."
+      		}
+    	},
+    "diskType": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "StandardSSD_LRS",
+        "Standard_LRS",
+        "Premium_LRS"
+      ],
+	      "metadata": {
+	        "description": "The Storage type of the data Disks"
       		}
     	},
         "jenkinsDnsPrefix": {
@@ -54,6 +67,7 @@
         "subnetName": "[concat(variables('resourcePrefix'), '-subnet')]",
         "publicIPAddressName": "[concat(variables('resourcePrefix'), '-publicIP')]",
         "vmName": "[concat(variables('resourcePrefix'), '-vm')]",
+        "dataDiskSize": 64,
         "vmExtensionName": "[concat(variables('resourcePrefix'), '-init')]",
         "virtualNetworkName": "[concat(variables('resourcePrefix'), '-vnet')]",
         "frontEndNSGName": "[concat(variables('resourcePrefix'), '-nsg')]",
@@ -61,8 +75,11 @@
         "sNetAddressPrefixes": "10.0.0.0/24",
         "vmPrivateIP": "10.0.0.5",     
         "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
-        "extensionName": "DockerExtension"
-    },
+        "extensionName": "DockerExtension",
+        "imagePublisher": "Canonical",
+    	"imageOffer": "UbuntuServer",
+    	"ubuntuOSVersion": "18.04-LTS"
+    }, 
     "resources": [
         {
             "apiVersion": "2016-09-01",
@@ -181,7 +198,7 @@
             ],
             "properties": {
                 "hardwareProfile": {
-                    "vmSize": "Standard_D2_v2"
+                    "vmSize": "[parameters('virtualMachineSize')]"
                 },
                 "osProfile": {
                     "computerName": "[variables('vmName')]",
@@ -200,17 +217,18 @@
                 },
                 "storageProfile": {
                     "imageReference": {
-                        "publisher": "Canonical",
-                        "offer": "UbuntuServer",
-                        "sku": "16.04-LTS",
-                        "version": "latest"
+			            "publisher": "[variables('imagePublisher')]",
+			            "offer": "[variables('imageOffer')]",
+			            "sku": "[variables('ubuntuOSVersion')]",
+			            "version": "latest"
                     },
                     "osDisk": {
-                        "name": "osdisk",
+                        "name": "[concat(variables('vmName'), '-osdisk')]",
+                        "diskSizeGB": "[variables('dataDiskSize')]",
                         "caching": "ReadWrite",
                         "createOption": "FromImage",
                         "managedDisk": {
-                            "storageAccountType": "Standard_LRS"
+                            "storageAccountType": "[parameters('diskType')]"
                         }
                     }
                 },
@@ -255,7 +273,7 @@
 		        "autoUpgradeMinorVersion": true,
 		        "settings": {
 		          "fileUris": [
-		            "https://github.com/glynelite/MinecraftOnAzure/blob/master/JenkinsVM/install_jenkins.sh"
+		            "https://raw.githubusercontent.com/glynelite/MinecraftOnAzure/master/SpigotVM/install_spigot.sh"
 		          ],
 		          "commandToExecute": "bash install_jenkins.sh"
 		          }
