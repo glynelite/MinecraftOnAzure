@@ -255,7 +255,7 @@
 		        "autoUpgradeMinorVersion": true,
 		        "settings": {
 		          "fileUris": [
-		            "https://raw.githubusercontent.com/glynelite/MinecraftOnAzure/master/SpigotVM/install_jenkins.sh"
+		            "https://github.com/glynelite/MinecraftOnAzure/blob/master/JenkinsVM/install_jenkins.sh"
 		          ],
 		          "commandToExecute": "bash install_jenkins.sh"
 		          }
