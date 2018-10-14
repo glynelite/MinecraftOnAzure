@@ -1,0 +1,20 @@
+version: '3.4'
+services:
+   spigot:
+      build: .
+
+      environment:
+      - EULA=TRUE
+      - TYPE=PAPER
+      - PAPER_DOWNLOAD_URL=goo.gl/3fuFgC
+
+      volumes:
+      - type: bind
+        source: /var/world-data
+        target: /world-data
+
+      ports:
+      - "25565:25565"
+
+      container_name: spigot
+      restart: always
