@@ -5,4 +5,5 @@ RUN mkdir -m 777 /world-data \
 
 VOLUME /world-data
 
-COPY server.properties /data/server.properties
+COPY tmp/config /data/
+COPY tmp/plugins /plugins/
