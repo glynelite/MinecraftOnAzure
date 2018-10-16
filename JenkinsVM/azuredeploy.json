@@ -67,7 +67,7 @@
         "subnetName": "[concat(variables('resourcePrefix'), '-subnet')]",
         "publicIPAddressName": "[concat(variables('resourcePrefix'), '-publicIP')]",
         "vmName": "[concat(variables('resourcePrefix'), '-vm')]",
-        "dataDiskSize": 64,
+        "dataDiskSize": 32,
         "vmExtensionName": "[concat(variables('resourcePrefix'), '-init')]",
         "virtualNetworkName": "[concat(variables('resourcePrefix'), '-vnet')]",
         "frontEndNSGName": "[concat(variables('resourcePrefix'), '-nsg')]",
@@ -78,7 +78,7 @@
         "extensionName": "DockerExtension",
         "imagePublisher": "Canonical",
     	"imageOffer": "UbuntuServer",
-    	"ubuntuOSVersion": "18.04-LTS"
+    	"ubuntuOSVersion": "16.04-LTS"
     }, 
     "resources": [
         {
@@ -273,7 +273,7 @@
 		        "autoUpgradeMinorVersion": true,
 		        "settings": {
 		          "fileUris": [
-		            "https://raw.githubusercontent.com/glynelite/MinecraftOnAzure/master/SpigotVM/install_spigot.sh"
+		            "https://raw.githubusercontent.com/glynelite/MinecraftOnAzure/master/JenkinsVM/install_jenkins.sh"
 		          ],
 		          "commandToExecute": "bash install_jenkins.sh"
 		          }

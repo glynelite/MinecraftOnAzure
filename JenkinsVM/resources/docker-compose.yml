@@ -1,0 +1,38 @@
+version: '3.4'
+services:
+   jenkins-master:
+      build: ./jenkins-master
+
+      user: root
+      container_name: jenkins
+      restart: always
+
+      ports:
+      - "8080:8080"
+
+      volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+
+      - type: volume
+        source: jenkins-data
+        target: /var/jenkins_home
+        volume:
+          nocopy: true
+          
+      networks:
+      - jenkins-net
+      
+   nginx:
+     build: ./nginx
+     container_name: nginx
+     ports:
+     - "80:80"
+     networks:
+     - jenkins-net
+
+volumes:
+   jenkins-data:
+networks:
+   jenkins-net:
