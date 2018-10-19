@@ -1,0 +1,63 @@
+version: '3.4'
+services:
+   jenkins-master:
+      image: forq/jenkins
+
+      user: root
+
+      ports:
+      - "8080:8080"
+
+      environment:
+      - JENKINS_UI_URL=http://craft-pipe.eastus.cloudapp.azure.com
+      - GITHUB_PLUGINS_REPO_URL=https://github.com/glynelite/MobCap
+      - GITHUB_CONFIG_REPO_URL=https://github.com/glynelite/MinecraftServerConfig
+
+      volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        
+      - type: bind
+        source: /home
+        target: /home
+
+      - type: volume
+        source: jenkins-data
+        target: /var/jenkins_home
+        volume:
+          nocopy: true
+
+      networks:
+      - jenkins-net
+
+      secrets:
+      - jenkins-user
+      - jenkins-pass
+      - github-user
+      - github-pass
+      - remote-host-user
+
+   nginx:
+      image: forq/nginx-jenk:latest
+      ports:
+      - "80:80"
+      networks:
+      - jenkins-net
+
+secrets:
+  jenkins-user:
+    external: true
+  jenkins-pass:
+    external: true
+  github-user:
+    external: true
+  github-pass:
+    external: true
+  remote-host-user:
+    external: true
+
+volumes:
+   jenkins-data:
+networks:
+   jenkins-net:
