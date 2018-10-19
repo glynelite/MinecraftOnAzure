@@ -10,6 +10,8 @@ services:
 
       environment:
       - JENKINS_UI_URL=http://craft-pipe.eastus.cloudapp.azure.com
+      - GITHUB_PLUGINS_REPO_URL=https://github.com/glynelite/MobCap
+      - GITHUB_CONFIG_REPO_URL=https://github.com/glynelite/MinecraftServerConfig
 
       volumes:
       - type: bind
@@ -34,6 +36,7 @@ services:
       - jenkins-pass
       - github-user
       - github-pass
+      - remote-host-user
 
    nginx:
       image: forq/nginx-jenk:latest
@@ -50,6 +53,8 @@ secrets:
   github-user:
     external: true
   github-pass:
+    external: true
+  remote-host-user:
     external: true
 
 volumes:
